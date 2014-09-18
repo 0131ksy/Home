@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="controller" />
+	
+	<bean id="dataSource"  class="org.apache.commons.dbcp.BasicDataSource" 
+	 			destroy-method="close"
+	 			p:driverClassName="oracle.jdbc.driver.OracleDriver"
+	 			p:url="jdbc:oracle:thin:@127.0.0.1:1521:xe"
+	 			p:username="scott"
+	 			p:password="tiger"
+	 			p:maxActive="10" />
+	 			
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource"></property>
+	 	<!-- <property name="mapperLocations" value="classpath:/conf/project.xml"></property> -->
+	 	<property name="configLocation" value="classpath:/conf/SqlMapConfig.xml"></property>
+    </bean>
+    
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+    	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+    </bean>
+    
+    <bean id="MemberDAO" class="model.dao.MemberDAO">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="Board1DAO" class="model.dao.Board1DAO">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="Board1ReplyDAO" class="model.dao.Board1ReplyDAO">
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="MemberService" class="model.service.MemberService">
+    	<property name="memberDAO" ref="MemberDAO"></property>
+    </bean>
+	
+	<bean id="Board1Service" class="model.service.Board1Service">
+		<property name="board1DAO" ref="Board1DAO"></property>
+	</bean>
+	
+	<bean id="Board1ReplyService" class="model.service.Board1ReplyService">
+		<property name="board1ReplyDAO" ref="Board1ReplyDAO"></property>
+	</bean>
+	
+	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jacksonMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="member" type="model.domain.Member" />
+		<typeAlias alias="board1" type="model.domain.Board1" />
+		<typeAlias alias="board1Reply" type="model.domain.Board1Reply" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="conf/member.xml" />
+		<mapper resource="conf/board1.xml" />
+		<mapper resource="conf/board1Reply.xml" />
+	</mappers>
+
+</configuration>
