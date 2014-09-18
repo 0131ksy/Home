@@ -57,8 +57,8 @@ public class Board1Controller {
 	@RequestMapping(value="viewBoard1.do", method=RequestMethod.POST)
 	public ModelAndView viewBoard1(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
-		ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList();
 		int no = Integer.parseInt(request.getParameter("no"));
+		ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList(no);
 		mv.addObject("board1", board1Service.viewBoard1(no));
 		mv.addObject("board1ReplyList", board1ReplyList);
 		mv.setViewName("viewBoard");
@@ -70,9 +70,9 @@ public class Board1Controller {
 		ModelAndView mv = new ModelAndView();
 		int no = Integer.parseInt(request.getParameter("no"));
 		if(board1Service.deleteBoard1(no) != 0){
+			board1ReplyService.deleteBoard1ReplyAll(no);
 			ArrayList<Board1> board1List = board1Service.getBoard1List();
 			mv.addObject("board1List", board1List);
-			//response.sendRedirect("board/board.jsp");
 			mv.setViewName("boardSuccess");
 		}else{
 			mv.setViewName("fail");

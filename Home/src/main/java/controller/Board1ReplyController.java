@@ -26,22 +26,10 @@ public class Board1ReplyController {
 		this.board1ReplyService = board1ReplyService;
 	}
 	
-	@RequestMapping(value="getBoard1ReplyList.do", method=RequestMethod.POST)	
-	public ModelAndView getBoard1ReplyList(HttpServletRequest request){
-		ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList();
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("board1ReplyList", board1ReplyList);
-		mv.setViewName("board");
-		return mv;
-	}
-
 	@RequestMapping(value="insertBoard1Reply.do", method=RequestMethod.POST)
 	public ModelAndView insertBoard1Reply(@ModelAttribute("board1") Board1Reply board1Reply, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("board1Reply", board1ReplyService.insertBoard1Reply(board1Reply));
-		ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList();
-		request.setAttribute("board1ReplyList", board1ReplyList);
-		//response.sendRedirect("board/board.jsp");
 		mv.setViewName("boardSuccess");
 		return mv;
 	}
@@ -49,11 +37,11 @@ public class Board1ReplyController {
 	@RequestMapping(value="deleteBoard1Reply.do", method=RequestMethod.POST)
 	public ModelAndView deleteBoard1Reply(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		int no = Integer.parseInt(request.getParameter("no"));
-		if(board1ReplyService.deleteBoard1Reply(no) != 0){
-			ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList();
+		int replyNo = Integer.parseInt(request.getParameter("replyNo"));
+		if(board1ReplyService.deleteBoard1Reply(replyNo) != 0){
+			int no = Integer.parseInt(request.getParameter("no"));
+			ArrayList<Board1Reply> board1ReplyList = board1ReplyService.getBoard1ReplyList(no);
 			mv.addObject("board1ReplyList", board1ReplyList);
-			//response.sendRedirect("board/board.jsp");
 			mv.setViewName("boardSuccess");
 		}else{
 			mv.setViewName("fail");

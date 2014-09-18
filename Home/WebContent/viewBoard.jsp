@@ -7,8 +7,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>VIEW BOARD</title>
 		<script type="text/javascript">
-			function deleteReply(){
-				
+			function deleteReply(replyNo){
+				var replyForm = document.getElementById("replyForm");
+				document.getElementById("replyNo").value = replyNo;
+				replyForm.action = "deleteBoard1Reply.do";
+				replyForm.submit();
 			}
 		</script>
 	</head>
@@ -40,11 +43,12 @@
 				<table>
 					<c:if test="${!empty board1ReplyList}">
 						<c:forEach items="${board1ReplyList}" var="reply">
+							<input type="hidden" id="replyNo" name="replyNo" value="<c:out value='${reply.replyNo }'/>" />
 							<tr>
 								<td>${reply.id}</td>
 								<td>${reply.reply}</td>
 								<td>${reply.reDate}</td>
-								<td><input type="button" value="삭제" onclick="deleteReply()"/></td>
+								<td><input type="button" value="삭제" onclick="deleteReply('${reply.replyNo}')"/></td>
 							</tr>
 						</c:forEach>
 						<tr>

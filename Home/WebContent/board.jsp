@@ -8,7 +8,7 @@
 		<script type="text/javascript">
 			function viewBoard1(no){
 				var boardForm = document.getElementById("boardForm");
-				boardForm.no.value = no;
+				document.getElementById("no").value = no;
 				boardForm.submit();
 			}
 		</script>
@@ -23,16 +23,18 @@
 						<th>제목</th>
 						<th>작성일</th>
 					</tr>
-					<c:forEach items="${board1List}" var="board">
-						<tr>
-							<td>${board.no}</td>
-							<td>${board.id}</td>
-							<td onclick="viewBoard1('${board.no}')">${board.title}</td>
-							<td>${board.wrDate}</td>
-						</tr>
-					</c:forEach>
+					<c:if test="${!empty board1List }">
+						<c:forEach items="${board1List}" varStatus="inx" var="board">
+							<c:set var="index" value="${inx.index}" />
+							<tr>
+								<td><c:out value ='${board.no}'/><input type="hidden" id="no" name="no" value="<c:out value ='${board.no}'/>"/></td>
+								<td><c:out value ='${board.id}'/></td>
+								<td onclick="viewBoard1('${board.no}')" ><c:out value ='${board.title}'/></td>
+								<td><c:out value ='${board.wrDate}'/></td>
+							</tr>
+						</c:forEach>
+					</c:if>
 				</table>
-				<input type="hidden" id="no" name="no" value="${board.no}"/>
 			</form>
 			<a href="insertBoard.jsp">새글 작성</a>
 		</div>

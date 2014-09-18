@@ -12,15 +12,18 @@
 	</resultMap>
 	
 	<select id="getBoard1ReplyList" parameterType="ArrayList" resultMap="board1ReplyResultMap">
-		SELECT * FROM BOARD1_REPLY A, BOARD1 B WHERE A.NO = B.NO ORDER BY A.REPLY_NO ASC
+		SELECT * FROM BOARD1_REPLY WHERE NO = #{no} ORDER BY REPLY_NO ASC
 	</select>
 	
 	<insert id="insertBoard1Reply" parameterType="String">
 		INSERT INTO BOARD1_REPLY (REPLY_NO, NO, ID, REPLY, RE_DATE) VALUES (BOARD1_REPLY_SEQ_NUM.NEXTVAL, #{no}, #{id}, #{reply}, SYSDATE)
 	</insert>
 	
-	<delete id="deleteBoard1ReplyResult" parameterType="int" >
+	<delete id="deleteBoard1Reply" parameterType="int" >
 		DELETE BOARD1_REPLY WHERE REPLY_NO = #{replyNo}
 	</delete>
 	
+	<delete id="deleteBoard1ReplyAll" parameterType="int">
+		DELETE BOARD1_REPLY WHERE NO = #{no}
+	</delete>
 </mapper>

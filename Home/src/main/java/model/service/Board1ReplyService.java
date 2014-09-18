@@ -20,16 +20,20 @@ public class Board1ReplyService {
 		board1ReplyDAO.setBoard1ReplyDAO();
 	}
 
-	public ArrayList<Board1Reply> getBoard1ReplyList() {
-		return board1ReplyDAO.getBoard1ReplyList();
+	public ArrayList<Board1Reply> getBoard1ReplyList(int no) {
+		return board1ReplyDAO.getBoard1ReplyList(no);
 	}
 	
 	public int insertBoard1Reply(Board1Reply board1Reply){
 		return board1ReplyDAO.insertBoard1Reply(board1Reply);
 	}
 	
-	public int deleteBoard1Reply(int no){
-		return board1ReplyDAO.deleteBoard1Reply(no);
+	public int deleteBoard1Reply(int replyNo){
+		return board1ReplyDAO.deleteBoard1Reply(replyNo);
+	}
+	
+	public int deleteBoard1ReplyAll(int no){
+		return board1ReplyDAO.deleteBoard1ReplyAll(no);
 	}
 
 }
